@@ -36,8 +36,8 @@ def filter_jewelry(request):
 
 def jewelry(request, bId):
     
-    jewelry1 = {'id':12344321, 'title':'Continuous Delivery', 'author':'J. Humble and D. Farley'}
-    jewelry2 = {'id':56788765, 'title':'Reversing: Secrets of Reverse Engineering', 'author':'E. Eilam'}
+    jewelry1 = {'id':0000, 'title':'Diamond', 'designer':'Amani'}
+    jewelry2 = {'id':1111, 'title':'Pearls', 'designer': 'reem'}
     
     targetBook = None
     if jewelry1['id'] == bId: target = jewelry1
@@ -45,5 +45,5 @@ def jewelry(request, bId):
     
     if target == None: return redirect('/jewelry')
     
-    context = {'j':targetBook} # book is the variable name accessible by template
+    context = {'j':targetBook} # jewelry is the variable name accessible by template
     return render(request, 'jewmodule/j.html', context)
