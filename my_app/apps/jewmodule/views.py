@@ -1,43 +1,49 @@
-<<<<<<< HEAD
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
+from .models import jewelry
 
 def index(request):
-    # Study the request
-    return render(request, 'jewmodule/index.html')  
-# Rendering a template
-def jewelry(request):
-    u = request.user
-    return render(request, 'jewmodule/jewelry.html') 
+    # this view return index
+	return render(request, 'jewmodule/index.html')
 
-def jewelry(request, jew id):
-    return None
+def jewelry(request):
+    jewelry = jewelry.objects.filter(price__lte = 100).order_by('-price')
+    print(str(len(jewelry)))
+    return render(request, 'jewmodule/jeList.html', {'jewelry': jewelry})
+
+def filter_jewelry(request):
+    
+    if request.method == "POST":
+        string = request.POST.get('keyword').lower()
+        isTitle = request.POST.get('option1')
+        isAuthor = request.POST.get('option2')
+        
+        selected = request.POST.get('selectedgenre')
+        
+        my_jewelry = jewelry.objects.filter(title__icontains='or')
+        my_jewelry2 = my_jewelry.filter(price__lte = 100).exclude(author_icontains = 'Am')
+        
+        print(f"selected thing = {selected}")
+        # now filter
+        jewelry = getjewelry()
+        news = []
+        for item in jewelry:
+            contained = False
+            if isTitle and string in item['title'].lower(): contained = True
+            if not contained and isAuthor and string in item['author'].lower(): contained = True
+            if contained: news.append(item)       
+        return render(request, 'jewmodule/bookList.html', {'books':news})
+    return render(request, 'jewmodule/search.html', {})
 
 def jewelry(request, bId):
-    Gemstones1 = {'id': 12344321, 'title': 'Continuous Delivery', 'author': 'J. Humble and D. Farley'}
-    Gemstones2 = {'id': 56788765, 'title': 'Reversing: Secrets of Reverse Engineering', 'author': 'E. Ellams'}
     
-    target = None
+    jewelry1 = {'id':12344321, 'title':'Continuous Delivery', 'author':'J. Humble and D. Farley'}
+    jewelry2 = {'id':56788765, 'title':'Reversing: Secrets of Reverse Engineering', 'author':'E. Eilam'}
     
-    if Gemstones1['id'] == bId:
-        targetBook = Gemstones1
-    elif Gemstones2['id'] == bId:
-        targetBook = Gemstones2
+    targetBook = None
+    if jewelry1['id'] == bId: target = jewelry1
+    if jewelry2['id'] == bId: target = jewelry2
     
-    context = {'book': targetBook}  # 'book'
-    return render(request, 'jewmodule/book.html', context)
-
-=======
-<<<<<<< HEAD
-from django.shortcuts import render
-
-def index(request):
-    # Study the request
-    return render(request, 'jewmodule/index.html')  # Rendering a template
-=======
-from django.shortcuts import render
-
-def index(request):
-    # Study the request
-    return render(request, 'jewmodule/index.html')  # Rendering a template
->>>>>>> f805db6a1790a2fd31e46ec097a587081675bc65
->>>>>>> 65a4a5d96c0f434d53e3290270e7c145a1ddb7f3
+    if target == None: return redirect('/jewelry')
+    
+    context = {'j':targetBook} # book is the variable name accessible by template
+    return render(request, 'jewmodule/j.html', context)
