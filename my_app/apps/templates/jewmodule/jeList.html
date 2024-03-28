@@ -1,49 +1,19 @@
-<<<<<<< HEAD
-{{% extends "layouts/base.html" %}}
+{% extends "layouts/base.html" %}
 
 {% block content %}
-<h1>jewelry list</h1>
-<h3>jewelry 1</h3>
-<h4>Title</h4>
-<a href="/jewelry/12344321">Continuous Delivery</a>
-<h4>Authors</h4>
-‹p>by J. Humble and D. Farley</p> 
-<h4>Description</h4>
-<p>This book jewelry how to deliver your software more reliable using automated processes</p>
-</br>
-<h3>jewelry 2</h3>
-<h4>Title</h4>
-‹a href="/jewelry/56788765"> Reversing: Secrets of Reverse Engineering</a>
-<h4>Author</h4>
-‹p>by E. Eilam</p> 
-<h4>Description</h4>
-<p>This jewelry provides in-depth pratical techinuqes and methods for Reverse Engineering </p>
-
- {% endblock content %}
- 
-
-=======
-{{% extends "layouts/base.html" %}}
-
-{% block content %}
-<h1>jewelry list</h1>
-<h3>jewelry 1</h3>
-<h4>Title</h4>
-<a href="/jewelry/12344321">Continuous Delivery</a>
-<h4>Authors</h4>
-‹p>by J. Humble and D. Farley</p> 
-<h4>Description</h4>
-<p>This book jewelry how to deliver your software more reliable using automated processes</p>
-</br>
-<h3>jewelry 2</h3>
-<h4>Title</h4>
-‹a href="/jewelry/56788765"> Reversing: Secrets of Reverse Engineering</a>
-<h4>Author</h4>
-‹p>by E. Eilam</p> 
-<h4>Description</h4>
-<p>This jewelry provides in-depth pratical techinuqes and methods for Reverse Engineering </p>
-
- {% endblock content %}
- 
-
->>>>>>> f805db6a1790a2fd31e46ec097a587081675bc65
+<h1>jewelry List</h1>
+<table border="1">
+    <tr>
+        <th>Title</th>
+        <th>designer</th>
+        <th>Price</th>
+    </tr>
+    {% for j in jewelry %}
+        <tr>
+            <td>{{b.title}}</td>
+            <td>{{b.designer}}</td>
+            <td>{{b.price}}</td>
+        </tr>
+    {%endfor%}
+</table>
+{% endblock content %}
