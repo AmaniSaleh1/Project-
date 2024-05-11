@@ -1,16 +1,41 @@
 from django.shortcuts import render, redirect
 from .models import jewelry
+from .forms import jewelryForm
 
 def index(request):
     # this view return index
 	return render(request, 'jewmodule/index.html')
 
 def jewelry(request):
-    jewelry = jewelry.objects.filter(price__lte = 100).order_by('-price')
-    print(str(len(jewelry)))
-    return render(request, 'jewmodule/jeList.html', {'jewelry': jewelry})
+    jewelry = jewelry.objects.all()
+    return render(request, 'jewmodule/jewelryList.html', {'jewelry': jewelry})
 
-def filter_jewelry(request):
+def jewelry(request, bId): # read/sgiw/disply
+    obj = jewelry.objects.get(id = bId)
+    return render(request, 'jewmodule/jewelry.html', {'jewelry':obj})
+
+def addjewelry(request):
+    if request.method == 'POST':
+        form = jewelryForm(request.POST)
+        
+        if form.is_valid():
+            obj = form.save()
+            return redirect('jewelry', bId = obj.id )
+    form = jewelryForm(None)
+    return render(request, "jewmodule/jewelryadd.html", {'form':form})
+
+def updatejewelry(request, bId):
+    obj = jewelry.objects.get(id = bId)
+    if request.method == 'POST':
+        form = jewelryForm(request.POST, instance=obj)
+        if form.is_valid():
+            obj.save()
+            return redirect('jewelry', bId = obj.id )
+        
+    form = jewelryForm(instance=obj)
+    return render(request, "jewmodule/updatejewelry.html", {'form':form})
+
+def filterjewelry(request):
     
     if request.method == "POST":
         string = request.POST.get('keyword').lower()
@@ -19,31 +44,19 @@ def filter_jewelry(request):
         
         selected = request.POST.get('selectedgenre')
         
-        my_jewelry = jewelry.objects.filter(title__icontains='or')
-        my_jewelry2 = my_jewelry.filter(price__lte = 100).exclude(author_icontains = 'Am')
+        myjew = jewelry.objects.filter(title__icontains='or')
+        myjew2 = myjew.filter(price__lte = 100).exclude(author_icontains = 'j')
         
         print(f"selected thing = {selected}")
         # now filter
-        jewelry = getjewelry()
-        news = []
+        jewelry = __getjewelry()
+        newjewelry = []
         for item in jewelry:
             contained = False
             if isTitle and string in item['title'].lower(): contained = True
             if not contained and isAuthor and string in item['author'].lower(): contained = True
-            if contained: news.append(item)       
-        return render(request, 'jewmodule/bookList.html', {'books':news})
+            if contained: newBooks.append(item)       
+        return render(request, 'jewodule/jewelryList.html', {'jewelry':newjewelry})
     return render(request, 'jewmodule/search.html', {})
 
-def jewelry(request, bId):
     
-    jewelry1 = {'id':0000, 'title':'Diamond', 'designer':'Amani'}
-    jewelry2 = {'id':1111, 'title':'Pearls', 'designer': 'reem'}
-    
-    targetBook = None
-    if jewelry1['id'] == bId: target = jewelry1
-    if jewelry2['id'] == bId: target = jewelry2
-    
-    if target == None: return redirect('/jewelry')
-    
-    context = {'j':targetBook} # jewelry is the variable name accessible by template
-    return render(request, 'jewmodule/j.html', context)
