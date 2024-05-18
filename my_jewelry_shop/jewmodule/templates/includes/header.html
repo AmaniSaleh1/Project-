@@ -1,0 +1,13 @@
+<!-- jewmodule/templates/jewmodule/includes/header.html -->
+<header>
+    <nav class="navbar">
+        <div class="container">
+            <a href="{% url 'index' %}" class="navbar-brand">Jewelry Shop</a>
+            <ul class="navbar-menu">
+                <li><a href="{% url 'jewelry_list' %}">Jewelry</a></li>
+                <li><a href="{% url 'add_jewelry' %}">Add Jewelry</a></li>
+                <li><a href="{% url 'filter_jewelry' %}">Search Jewelry</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>

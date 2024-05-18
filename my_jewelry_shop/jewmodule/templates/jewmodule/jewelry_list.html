@@ -1,0 +1,27 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Jewelry List{% endblock %}
+
+{% block content %}
+<h1>Jewelry List</h1>
+
+<form method="get" action="{% url 'jewelry_list' %}">
+    {{ form.as_p }}
+    <button type="submit" class="btn">Filter</button>
+</form>
+
+<a href="{% url 'add_jewelry' %}" class="btn">Add Jewelry</a>
+
+<ul>
+    {% for item in jewelry %}
+    <li>
+        <a href="{% url 'jewelry_detail' item.pk %}">{{ item.title }}</a>
+        <a href="{% url 'update_jewelry' item.pk %}">Edit</a>
+        <form action="{% url 'delete_jewelry' item.pk %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

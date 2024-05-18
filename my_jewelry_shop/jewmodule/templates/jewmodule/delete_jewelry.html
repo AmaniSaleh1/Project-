@@ -1,0 +1,13 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Delete Jewelry{% endblock %}
+
+{% block content %}
+<h1>Delete Jewelry</h1>
+<p>Are you sure you want to delete "{{ jewelry.title }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn">Yes, delete</button>
+    <a href="{% url 'jewelry_list' %}">Cancel</a>
+</form>
+{% endblock %}
