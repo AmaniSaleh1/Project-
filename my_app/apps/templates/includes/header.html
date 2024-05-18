@@ -1,1 +1,21 @@
-<p>Hi i am in header area</p>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'index' %}">Jewelry Shop</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'jewelry_list' %}">Jewelry</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'add_jewelry' %}">Add Jewelry</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'filter_jewelry' %}">Search Jewelry</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
