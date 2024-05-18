@@ -1,62 +1,64 @@
-from django.shortcuts import render, redirect
-from .models import jewelry
-from .forms import jewelryForm
+# views.py
+
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Jewelry
+from .forms import JewelryForm
 
 def index(request):
-    # this view return index
-	return render(request, 'jewmodule/index.html')
+    return render(request, 'jewmodule/index.html')
 
-def jewelry(request):
-    jewelry = jewelry.objects.all()
-    return render(request, 'jewmodule/jewelryList.html', {'jewelry': jewelry})
+def jewelry_list(request):
+    jewelry_items = Jewelry.objects.all()
+    return render(request, 'jewmodule/jewelryList.html', {'jewelry': jewelry_items})
 
-def jewelry(request, bId): # read/sgiw/disply
-    obj = jewelry.objects.get(id = bId)
-    return render(request, 'jewmodule/jewelry.html', {'jewelry':obj})
+def jewelry_detail(request, bId):
+    obj = get_object_or_404(Jewelry, id=bId)
+    return render(request, 'jewmodule/jewelry.html', {'jewelry': obj})
 
-def addjewelry(request):
+def add_jewelry(request):
     if request.method == 'POST':
-        form = jewelryForm(request.POST)
-        
+        form = JewelryForm(request.POST)
         if form.is_valid():
             obj = form.save()
-            return redirect('jewelry', bId = obj.id )
-    form = jewelryForm(None)
-    return render(request, "jewmodule/jewelryadd.html", {'form':form})
+            return redirect('jewelry_detail', bId=obj.id)
+    else:
+        form = JewelryForm()
+    return render(request, 'jewmodule/jewelryadd.html', {'form': form})
 
-def updatejewelry(request, bId):
-    obj = jewelry.objects.get(id = bId)
+def update_jewelry(request, bId):
+    obj = get_object_or_404(Jewelry, id=bId)
     if request.method == 'POST':
-        form = jewelryForm(request.POST, instance=obj)
+        form = JewelryForm(request.POST, instance=obj)
         if form.is_valid():
-            obj.save()
-            return redirect('jewelry', bId = obj.id )
-        
-    form = jewelryForm(instance=obj)
-    return render(request, "jewmodule/updatejewelry.html", {'form':form})
+            obj = form.save()
+            return redirect('jewelry_detail', bId=obj.id)
+    else:
+        form = JewelryForm(instance=obj)
+    return render(request, 'jewmodule/updatejewelry.html', {'form': form})
 
-def filterjewelry(request):
-    
+def delete_jewelry(request, bId):
+    obj = get_object_or_404(Jewelry, id=bId)
+    obj.delete()
+    return redirect('jewelry_list')
+
+def filter_jewelry(request):
     if request.method == "POST":
-        string = request.POST.get('keyword').lower()
-        isTitle = request.POST.get('option1')
-        isAuthor = request.POST.get('option2')
-        
-        selected = request.POST.get('selectedgenre')
-        
-        myjew = jewelry.objects.filter(title__icontains='or')
-        myjew2 = myjew.filter(price__lte = 100).exclude(author_icontains = 'j')
-        
-        print(f"selected thing = {selected}")
-        # now filter
-        jewelry = __getjewelry()
-        newjewelry = []
-        for item in jewelry:
-            contained = False
-            if isTitle and string in item['title'].lower(): contained = True
-            if not contained and isAuthor and string in item['author'].lower(): contained = True
-            if contained: newBooks.append(item)       
-        return render(request, 'jewodule/jewelryList.html', {'jewelry':newjewelry})
-    return render(request, 'jewmodule/search.html', {})
+        keyword = request.POST.get('keyword', '').lower()
+        is_title = request.POST.get('option1')
+        is_type = request.POST.get('option2')
 
-    
+        if is_title and is_type:
+            filtered_jewelry = Jewelry.objects.filter(
+                title__icontains=keyword
+            ) | Jewelry.objects.filter(
+                type__icontains=keyword
+            )
+        elif is_title:
+            filtered_jewelry = Jewelry.objects.filter(title__icontains=keyword)
+        elif is_type:
+            filtered_jewelry = Jewelry.objects.filter(type__icontains=keyword)
+        else:
+            filtered_jewelry = Jewelry.objects.all()
+        
+        return render(request, 'jewmodule/jewelryList.html', {'jewelry': filtered_jewelry})
+    return render(request, 'jewmodule/search.html')
