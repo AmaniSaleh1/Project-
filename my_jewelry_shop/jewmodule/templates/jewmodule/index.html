@@ -3,6 +3,11 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h1>Welcome to the Jewelry Shop</h1>
-<a href="{% url 'jewelry_list' %}">View Jewelry</a>
+<div class="hero">
+    <div class="hero-content">
+        <h1>Welcome to Jewelry Shop</h1>
+        <p>Discover our exclusive collection of fine jewelry</p>
+        <a href="{% url 'jewelry_list' %}" class="btn">Shop Now</a>
+    </div>
+</div>
 {% endblock %}

@@ -20,9 +20,10 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: #ffffff87;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
 }
 
 /* Navbar styling */
@@ -43,6 +44,7 @@ body {
 .navbar-menu {
     display: flex;
     gap: 15px;
+    justify-content: center;
 }
 
 .navbar-menu li {
@@ -54,11 +56,12 @@ body {
     font-size: 16px;
     padding: 8px 15px;
     border-radius: 4px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .navbar-menu a:hover {
     background-color: #495057;
+    color: #ffffff;
 }
 
 /* Footer styling */
@@ -67,9 +70,10 @@ body {
     color: #fff;
     text-align: center;
     padding: 10px 0;
-    position: absolute;
+    position: relative;
     bottom: 0;
     width: 100%;
+    margin-top: 20px;
 }
 
 /* Button styling */
@@ -176,6 +180,40 @@ form input:focus, form select:focus, form textarea:focus {
     background-color: #e9ecef;
 }
 
+/* Hero section styling */
+.hero {
+    position: relative;
+    height: 400px;
+    background: url('https://th.bing.com/th/id/R.3afc13978858b6e711209f79550117b9?rik=Yc2E0z1qmAwqYg&pid=ImgRaw&r=0') no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+.hero-content {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
+.hero .btn {
+    padding: 15px 30px;
+    font-size: 18px;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     .navbar-menu {
@@ -197,5 +235,18 @@ form input:focus, form select:focus, form textarea:focus {
 
     .filter-form .form-group {
         width: 100%;
+    }
+
+    .hero h1 {
+        font-size: 36px;
+    }
+
+    .hero p {
+        font-size: 18px;
+    }
+
+    .hero .btn {
+        padding: 10px 20px;
+        font-size: 16px;
     }
 }
