@@ -3,25 +3,62 @@
 {% block title %}Jewelry List{% endblock %}
 
 {% block content %}
-<h1>Jewelry List</h1>
+<div class="container">
+    <h1>Jewelry List</h1>
 
-<form method="get" action="{% url 'jewelry_list' %}">
-    {{ form.as_p }}
-    <button type="submit" class="btn">Filter</button>
-</form>
+    <form method="get" action="{% url 'jewelry_list' %}" class="filter-form">
+        <div class="form-row">
+            <div class="form-group">
+                {{ form.keyword.label_tag }}
+                {{ form.keyword }}
+            </div>
+            <div class="form-group">
+                {{ form.min_price.label_tag }}
+                {{ form.min_price }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                {{ form.max_price.label_tag }}
+                {{ form.max_price }}
+            </div>
+            <div class="form-group">
+                {{ form.type.label_tag }}
+                {{ form.type }}
+            </div>
+        </div>
+        <button type="submit" class="btn">Filter</button>
+    </form>
 
-<a href="{% url 'add_jewelry' %}" class="btn">Add Jewelry</a>
+    <a href="{% url 'add_jewelry' %}" class="btn">Add Jewelry</a>
 
-<ul>
-    {% for item in jewelry %}
-    <li>
-        <a href="{% url 'jewelry_detail' item.pk %}">{{ item.title }}</a>
-        <a href="{% url 'update_jewelry' item.pk %}">Edit</a>
-        <form action="{% url 'delete_jewelry' item.pk %}" method="post" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-    {% endfor %}
-</ul>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Price</th>
+                <th>Edition</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in jewelry %}
+            <tr>
+                <td><a href="{% url 'jewelry_detail' item.pk %}">{{ item.title }}</a></td>
+                <td>{{ item.type }}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ item.edition }}</td>
+                <td>
+                    <a href="{% url 'update_jewelry' item.pk %}" class="btn btn-sm">Edit</a>
+                    <form action="{% url 'delete_jewelry' item.pk %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

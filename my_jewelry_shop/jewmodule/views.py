@@ -1,6 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect
+from django.http import Http404
 from .models import Jewelry
 from .forms import JewelryForm, JewelryFilterForm
+from django.views.decorators.csrf import csrf_exempt
 
 def index(request):
     return render(request, 'jewmodule/index.html')
@@ -27,9 +29,13 @@ def jewelry_list(request):
     return render(request, 'jewmodule/jewelry_list.html', {'jewelry': jewelry_items, 'form': form})
 
 def jewelry_detail(request, pk):
-    obj = get_object_or_404(Jewelry, pk=pk)
+    try:
+        obj = Jewelry.objects.get(pk=pk)
+    except Jewelry.DoesNotExist:
+        raise Http404("Jewelry not found")
     return render(request, 'jewmodule/jewelry_detail.html', {'jewelry': obj})
 
+@csrf_exempt
 def add_jewelry(request):
     if request.method == 'POST':
         form = JewelryForm(request.POST)
@@ -40,8 +46,13 @@ def add_jewelry(request):
         form = JewelryForm()
     return render(request, 'jewmodule/add_jewelry.html', {'form': form})
 
+@csrf_exempt
 def update_jewelry(request, pk):
-    obj = get_object_or_404(Jewelry, pk=pk)
+    try:
+        obj = Jewelry.objects.get(pk=pk)
+    except Jewelry.DoesNotExist:
+        raise Http404("Jewelry not found")
+        
     if request.method == 'POST':
         form = JewelryForm(request.POST, instance=obj)
         if form.is_valid():
@@ -51,13 +62,19 @@ def update_jewelry(request, pk):
         form = JewelryForm(instance=obj)
     return render(request, 'jewmodule/update_jewelry.html', {'form': form})
 
+@csrf_exempt
 def delete_jewelry(request, pk):
-    obj = get_object_or_404(Jewelry, pk=pk)
+    try:
+        obj = Jewelry.objects.get(pk=pk)
+    except Jewelry.DoesNotExist:
+        raise Http404("Jewelry not found")
+        
     if request.method == 'POST':
         obj.delete()
         return redirect('jewelry_list')
     return render(request, 'jewmodule/delete_jewelry.html', {'jewelry': obj})
 
+# @csrf_exempt
 def filter_jewelry(request):
     form = JewelryFilterForm(request.GET or None)
     jewelry_items = Jewelry.objects.all()

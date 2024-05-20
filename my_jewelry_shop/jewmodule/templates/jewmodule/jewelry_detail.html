@@ -3,10 +3,12 @@
 {% block title %}Jewelry Detail{% endblock %}
 
 {% block content %}
-<h1>{{ jewelry.title }}</h1>
-<p>Type: {{ jewelry.type }}</p>
-<p>Price: {{ jewelry.price }}</p>
-<p>Edition: {{ jewelry.edition }}</p>
-<a href="{% url 'update_jewelry' jewelry.pk %}">Edit</a>
-<a href="{% url 'jewelry_list' %}">Back to List</a>
+<div class="container">
+    <h1>{{ jewelry.title }}</h1>
+    <p>Type: {{ jewelry.type }}</p>
+    <p>Price: {{ jewelry.price }}</p>
+    <p>Edition: {{ jewelry.edition }}</p>
+    <a href="{% url 'update_jewelry' jewelry.pk %}" class="btn">Edit</a>
+    <a href="{% url 'jewelry_list' %}" class="btn">Back to List</a>
+</div>
 {% endblock %}

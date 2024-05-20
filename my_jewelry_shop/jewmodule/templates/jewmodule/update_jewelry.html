@@ -3,10 +3,12 @@
 {% block title %}Update Jewelry{% endblock %}
 
 {% block content %}
-<h1>Update Jewelry</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn">Update Jewelry</button>
-</form>
+<div class="container">
+    <h1>Update Jewelry</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Update Jewelry</button>
+    </form>
+</div>
 {% endblock %}
